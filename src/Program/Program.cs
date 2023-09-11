@@ -11,24 +11,25 @@ using Full_GRASP_And_SOLID.Library;
 
 namespace Full_GRASP_And_SOLID
 {
-    public class Program
+    public class Program 
     {
-        private static ArrayList productCatalog = new ArrayList();
+        private static ArrayList productCatalog = new ArrayList(); // Se crea una variable de tipo ArrayList para almacenar los productos
 
-        private static ArrayList equipmentCatalog = new ArrayList();
+        private static ArrayList equipmentCatalog = new ArrayList(); //se crea una variable de tipo ArrayList para almacenar los equipos
 
         public static void Main(string[] args)
         {
             PopulateCatalogs();
 
-            Recipe recipe = new Recipe();
-            recipe.FinalProduct = GetProduct("Café con leche");
-            recipe.AddStep(new Step(GetProduct("Café"), 100, GetEquipment("Cafetera"), 120));
-            recipe.AddStep(new Step(GetProduct("Leche"), 200, GetEquipment("Hervidor"), 60));
-            recipe.PrintRecipe();
+            Recipe recipe = new Recipe(); // Se crea un objeto de tipo Recipe
+            recipe.FinalProduct = GetProduct("Café con leche"); // Se le asigna el producto final a la receta
+            recipe.AddStep(new Step(GetProduct("Café"), 100, GetEquipment("Cafetera"), 120)); //se crea un objeto de la clase step y se le asigna el producto, la cantidad, el equipo y el tiempo
+            recipe.AddStep(new Step(GetProduct("Leche"), 200, GetEquipment("Hervidor"), 60)); 
+            recipe.PrintRecipe(); // Se imprime la receta utilizando el metodo print de la clase recipe
+            Console.WriteLine($"Costo de producción: {recipe.GetProductionCost()}"); // Se imprime el costo de produccion de la receta
         }
 
-        private static void PopulateCatalogs()
+        private static void PopulateCatalogs() // Se crean los productos y equipos y se agregan a los catalogos
         {
             AddProductToCatalog("Café", 100);
             AddProductToCatalog("Leche", 200);
@@ -38,27 +39,27 @@ namespace Full_GRASP_And_SOLID
             AddEquipmentToCatalog("Hervidor", 2000);
         }
 
-        private static void AddProductToCatalog(string description, double unitCost)
+        private static void AddProductToCatalog(string description, double unitCost) // Se crea un producto y se agrega al catalogo
         {
             productCatalog.Add(new Product(description, unitCost));
         }
 
-        private static void AddEquipmentToCatalog(string description, double hourlyCost)
+        private static void AddEquipmentToCatalog(string description, double hourlyCost) // Se crea un equipo y se agrega al catalogo
         {
             equipmentCatalog.Add(new Equipment(description, hourlyCost));
         }
 
-        private static Product ProductAt(int index)
+        private static Product ProductAt(int index) // Se obtiene el producto en la posicion index del catalogo en el arraylist
         {
             return productCatalog[index] as Product;
         }
 
-        private static Equipment EquipmentAt(int index)
+        private static Equipment EquipmentAt(int index) // Se obtiene el equipo en la posicion index del catalogo en el arraylist
         {
             return equipmentCatalog[index] as Equipment;
         }
 
-        private static Product GetProduct(string description)
+        private static Product GetProduct(string description) // Se obtiene el producto con la descripcion pasada por parametro
         {
             var query = from Product product in productCatalog where product.Description == description select product;
             return query.FirstOrDefault();
@@ -70,4 +71,18 @@ namespace Full_GRASP_And_SOLID
             return query.FirstOrDefault();
         }
     }
+
+    
+
+
 }
+
+// Se utiliza el principio SRP, ya que la clase Recipe tiene una unica razon de cambio, que es la de imprimir la receta.
+
+/*Agregar la responsabilidad de calcular el costo total de producir un producto final double GetProductionCost()
+y Agregar al final de la impresión de la receta el costo total de producción que se obtiene usando el método recién agregado.*/
+
+
+
+
+
